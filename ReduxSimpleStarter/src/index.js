@@ -4,11 +4,19 @@
 import React from 'react'; // Core React knows how to render components, how to render them.
 import ReactDom from 'react-dom'; // taking the component and inserting into the dom is however is handeled by React Dom.
 
+import SearchBar from './components/search_bar';
+
+const API_KEY = 'AIzaSyBP3Qmn8iXNUiLdH0SY3eVQiF8tO46fAoY'; // 228 Youtube Search API Signup
+
 // Create a new component
 // This componenet should produce some HTML
 // 222 More on JSX
 const App = () => { // => a new way to define function using ES6 syntax.
-    return <div>Hi!</div>;
+    return (
+        <div>
+            <SearchBar />
+        </div>
+    );
 }
 
 
