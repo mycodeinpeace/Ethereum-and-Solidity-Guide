@@ -4,9 +4,18 @@
 import React from 'react'; // Core React knows how to render components, how to render them.
 import ReactDom from 'react-dom'; // taking the component and inserting into the dom is however is handeled by React Dom.
 
+// 236 Youtube Search Response
+import YTSearch from 'youtube-api-search';
+
 import SearchBar from './components/search_bar';
 
 const API_KEY = 'AIzaSyBP3Qmn8iXNUiLdH0SY3eVQiF8tO46fAoY'; // 228 Youtube Search API Signup
+
+// 236 Youtube Search Response
+// 
+YTSearch({key: API_KEY, term: 'surfboards'}, function(data) {
+    console.log(data);
+});
 
 // Create a new component
 // This componenet should produce some HTML
