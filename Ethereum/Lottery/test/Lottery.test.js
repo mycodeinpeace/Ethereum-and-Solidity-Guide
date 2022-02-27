@@ -68,4 +68,27 @@ describe('Lottery Contract', () => {
         // Check to see if there there is only three player. Because we haven't added more than three player in our test
         assert.equal(3, players.length);
     });
+
+    it('requires a minimum amount of ether to enter', async () => {
+        try {
+            await lottery.method.enter().send({
+                from: accounts[0],
+                value: 0 // We are sending less than 2, so this will fail; require(msg.value > 1); 
+            });
+            assert(false); // We need to add this. Because if the await code excecution is successfull it will not throw an error. So we are failing the test inentially using assert(false)
+        } catch (err) {
+            assert.ok(err); // Check if there is an error. There should be an error. If there is an error this test is successfull.
+        }
+    });
+
+    it('requires manager to pick a winner', async () => {
+        try {
+            await lottery.methods.pickWinner().call({
+                from: accounts[1] // this account is not manager. We defined manager as account[0] in beforeEach mocha test function.
+            });
+            assert(false);
+        } catch (err) {
+            assert.ok(err); // Check if there is an error. There should be an error. If there is an error this test is successfull.
+        }
+    });
 });
