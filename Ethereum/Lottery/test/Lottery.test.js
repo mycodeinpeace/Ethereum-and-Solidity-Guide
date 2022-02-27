@@ -21,6 +21,7 @@ describe('Lottery Contract', () => {
         assert.ok(lottery.options.address);
     });
 
+    
     it('allows one account to enter', async () => {
         // Enter the lottery
         await lottery.methods.enter().send({
@@ -90,5 +91,38 @@ describe('Lottery Contract', () => {
         } catch (err) {
             assert.ok(err); // Check if there is an error. There should be an error. If there is an error this test is successfull.
         }
+    });
+
+    it('sends money to the winner and resets the players array', async () => {
+        const beforeLottery = await web3.eth.getBalance(accounts[0]);
+        console.log("beforeLottery: " + beforeLottery);
+        // Enter the lottery
+        await lottery.methods.enter().send({
+            from: accounts[0],
+            value: web3.utils.toWei('2', 'ether')
+        });
+
+        // Get the balance before we pick a winner.
+        const initialBalance = await web3.eth.getBalance(accounts[0]);
+
+        console.log("initialBalance: " + initialBalance);
+        
+        // Pick a winner
+        const res = await lottery.methods.pickWinner().call({
+            from: accounts[0]
+        });
+
+        // Sleep 300 ms
+        await new Promise(r => setTimeout(r, 600));
+
+        // Get the balance after we pick a winner.
+        const finalBalance = await web3.eth.getBalance(accounts[0]);
+        console.log("finalBalance  : " + finalBalance);
+
+        // finalBalance - initialBalance will be smaller than 2, because of gas prices.
+        // So we will check if this amount is slightly less than 2 ether.
+        const difference = finalBalance - initialBalance;
+        console.log("difference " + difference);
+        assert(difference > web3.utils.toWei('1.8', 'ether')); // 1.8 allows some amount of gas. So that we can test this without actually calculating the exact gas.
     });
 });
