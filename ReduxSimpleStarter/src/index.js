@@ -3,27 +3,39 @@ import ReactDom from 'react-dom'; // taking the component and inserting into the
 import YTSearch from 'youtube-api-search'; // 236 Youtube Search Response
 import SearchBar from './components/search_bar';
 import VideoList from './components/video_list';
+import VideoDetail from './components/video_detail';
 const API_KEY = 'AIzaSyBP3Qmn8iXNUiLdH0SY3eVQiF8tO46fAoY'; // 228 Youtube Search API Signup
 
 class App extends Component {
     constructor(props) {
         super(props);
 
-        this.state = { videos: [] };
+        this.state = {
+            videos: [],
+            selectedVideo: null
+        };
 
         YTSearch({ key: API_KEY, term: 'surfboards' }, (videos) => {
-            this.setState({ videos });
+            this.setState({
+                videos: videos,
+                selectedVideo: videos[0]
+            });
         });
-    }
+    };
 
     render() {
         return (
             <div>
                 <SearchBar />
-                <VideoList videos={this.state.videos} />
+                <VideoDetail video={this.state.selectedVideo} />
+                <VideoList 
+                    onVideoSelect={selectedVideo => this.setState({selectedVideo})}
+                    videos={this.state.videos} />
+
+                    
             </div>
         );
-    }
+    };
 }
 
 ReactDom.render(<App />, document.querySelector('.container')); // 223 ES6 Import Statements. // <App />: 224 ReactDOM vs React
