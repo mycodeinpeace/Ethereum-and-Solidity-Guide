@@ -19,6 +19,7 @@ const deploy = async () => {
        .deploy({data: '0x' + bytecode}) // add 0x bytecode
        .send({from: accounts[0]}); // remove 'gas'
 
-    console.log('Contract deployed to', result.options.address)
+    console.log('Interface of our contract', interface);
+    console.log('Contract deployed to', result.options.address);
 };
 deploy();
