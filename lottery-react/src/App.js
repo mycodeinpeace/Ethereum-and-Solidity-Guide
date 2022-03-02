@@ -1,9 +1,10 @@
 import logo from './logo.svg';
 import './App.css';
 import web3 from './web3';
+import React, { Component }  from 'react';
 
 function App() {
-  console.log(web3.version);
+  console.log("Test: " + web3.version);
   return (
     <div className="App">
       <header className="App-header">
